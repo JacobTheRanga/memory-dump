@@ -1,5 +1,10 @@
 from pymysql import connect, cursors
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, 
+		  render_template, 
+		  session, 
+		  redirect, 
+		  url_for, 
+		  request
 from os import environ, urandom
 from dotenv import load_dotenv
 
@@ -34,7 +39,10 @@ def login():
     try:
         createConnection(request.form['passwd'])
     except:
-        return render_template('login.html', error = 'invalid connection')
+        return render_template(
+			       'login.html', 
+			       error = 'invalid connection'
+			      )
     session['grant'] = True
     return redirect(url_for('dashboard'))
 
@@ -55,4 +63,7 @@ def main():
     return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
-    app.run(host = 'localhost', port = environ.get('PORT'))
+    app.run(
+	    host = 'localhost', 
+	    port = environ.get('PORT')
+	   )
