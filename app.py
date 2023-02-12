@@ -1,10 +1,5 @@
 from pymysql import connect, cursors
-from flask import Flask, 
-		  render_template, 
-		  session, 
-		  redirect, 
-		  url_for, 
-		  request
+from flask import Flask, render_template, session, redirect, url_for, request
 from os import environ, urandom
 from dotenv import load_dotenv
 
@@ -14,8 +9,8 @@ load_dotenv('.env')
 
 def createConnection(passwd):
     return connect(
-        user = environ.get('USER'),
-        host = environ.get('HOST'),
+        user = environ.get('DB_USER'),
+        host = environ.get('DB_HOST'),
         passwd = passwd,
         db = environ.get('DB'),
         charset = 'utf8mb4',
@@ -64,6 +59,6 @@ def main():
 
 if __name__ == '__main__':
     app.run(
-	    host = 'localhost', 
+	    host = environ.get('HOST'), 
 	    port = environ.get('PORT')
-	   )
+	)
