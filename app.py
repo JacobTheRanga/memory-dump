@@ -39,7 +39,38 @@ def login():
 			       error = 'invalid connection'
 			      )
     session['grant'] = True
+    session['passwd'] = request.form['passwd']
     return redirect(url_for('dashboard'))
+
+@app.route('/new-item', methods = ['get', 'post'])
+def newItem():
+    try:
+        permission()
+    except:
+        return redirect(url_for('login'))
+    return redirect(url_for('dashboard'))
+
+@app.route('/new-tag')
+def newTag():
+    try:
+        permission()
+    except:
+        return redirect(url_for('login'))
+    return redirect(url_for('dashboard'))
+
+@app.route('/query', methods = ['get', 'post'])
+def query():
+    try:
+        permission()
+    except:
+        return redirect(url_for('login'))
+    connection = createConnection(session['passwd'])
+    with connection.cursor() as cursor:
+        cursor.execute('select * from itemtags\
+                        join items on items.id = itemtags.itemid\
+                        join tags on tags.id = itemtags.tagid')
+        data = cursor.fetchall()
+    return render_template('dashboard.html', data = data)
 
 @app.route('/dashboard')
 def dashboard():
